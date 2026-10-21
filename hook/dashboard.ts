@@ -1,4 +1,4 @@
-import { getAllUser, getDashboard, updateUserStatas } from "@/api"
+import { getAllUser, getUsersById, getDashboard, updateUserStatas } from "@/api"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
 
@@ -17,6 +17,15 @@ export const useUser = () => {
         retry: false
     })
 }
+export const useUserId = (id: string) => {
+    console.log(id);
+  return useQuery({
+    queryKey: ["usersId", id],
+    queryFn: () => getUsersById(id),
+     enabled: Boolean(id),
+    retry: false,
+  });
+};
 
 export const useUpdateStatus = () => {
     return useMutation({

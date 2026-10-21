@@ -6,11 +6,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { useState } from "react";
+import Status from "../statusupdate/Status";
+import { Separator } from "../ui/separator";
 
 export const columns: ColumnDef<User, any>[] = [
   {
     accessorKey: "name",
     header: "User",
+    
     cell: ({ row }) => {
       const user = row.original;
       return (
@@ -46,19 +58,33 @@ export const columns: ColumnDef<User, any>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status: string = row.getValue("status");
+      const [id,setId] = useState("");
       const router = useRouter();
     const heandelStatas = (payload:{id: string}) => {
         const params = new URLSearchParams();
         console.log(payload.id);
-        params.set('id', payload.id);
-        router.push(`/users/status?${params.toString()}`);
+        setId(payload.id);
+        // params.set('id', payload.id);
+        // router.push(`/users/status?${params.toString()}`);
     }
-       
       return (
-        <Badge variant={status === "ACTIVE" ? "outline" : "secondary"} className="text-green-600 border-green-600">
-            <Button onClick={()=> heandelStatas({id:row.original.id})} >{status}</Button>
+       
+        <Popover>
+  <PopoverTrigger >
+     <Badge variant={status === "ACTIVE" ? "outline" : "secondary"} className={status === "ACTIVE" ? "bg-primary" : "bg-red-500"}>
+            <Button className="bg-transparent hover:bg-transparent" onClick={()=> heandelStatas({id:row.original.id})} >{status}</Button>
          
         </Badge>
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverHeader>
+      <PopoverTitle>update user status</PopoverTitle>
+      <Separator />
+      <Status id={id} />
+      
+    </PopoverHeader>
+  </PopoverContent>
+</Popover>
       );
     },
   },

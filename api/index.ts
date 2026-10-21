@@ -1,3 +1,6 @@
 export * from "./auth.api"
 export * from "./dashboard.api"
 export * from "./Schedule.api"
+export * from "./area.api"
+export * from "./complaint.api"
+export * from "./assignment.api"

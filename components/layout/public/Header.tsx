@@ -27,6 +27,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { MRoleGude } from "@/components/auth/MroleGude";
+import { useRouter } from "next/navigation";
 const Header = () => {
     const menu = [
         {
@@ -41,11 +42,15 @@ const Header = () => {
     const { data, isLoading } = useGetMe()
     const { mutate: logout } = useLogout()
     const queryClient = useQueryClient()
+
+    const router = useRouter()
     const handleLogout = () => {
         logout(undefined, {
             onSuccess: () => {
                 toast.success("Logout successfully", { position: "top-right" });
                 queryClient.removeQueries({ queryKey: ["user"] })
+                router.push('/')
+
             },
 
             onError: () => {
