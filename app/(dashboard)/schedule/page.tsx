@@ -1,32 +1,34 @@
+"use client"
 import LoginForm from "@/components/form/login-form"
 import ScheduleForm from "@/components/form/schedule-form"
+import { ScheduleTable } from "@/components/table/Schedule"
+import { useGetSchedule, useSchedule } from "@/hook/schedule.hook";
 
 
 
 
-export default function schedulePage() {
+export default function SchedulePage() {
+  const { data, isPending, isError } = useGetSchedule();
+
+  if (isPending) {
+    return <div className="p-6 text-center">Loading schedules...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div className="p-6 text-center text-red-500">
+        Failed to load schedules.
+      </div>
+    );
+  }
+
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
-            
-            Load Shating  Power Managment System
-          </a>
-        </div>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xs">
-           <ScheduleForm />
-          </div>
-        </div>
-      </div>
-      <div className="relative hidden bg-muted lg:block">
-        <img
-          src="/login.avif"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
-      </div>
+    <div className="container mx-auto p-4 md:p-6">
+      <h1 className="mb-6 text-2xl font-bold">
+        Maintenance Schedules
+      </h1>
+
+      <ScheduleTable schedules={data?.data ?? []} />
     </div>
-  )
+  );
 }
