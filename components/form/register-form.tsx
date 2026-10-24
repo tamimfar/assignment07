@@ -21,11 +21,16 @@ const RegisterForm = () => {
     const router = useRouter()
     const form = useForm({
         defaultValues: {
-            name: 'admin1',
-            email: 't41296193@gmail.com',
-            password: 'Admin@12345',
-            confirmPassword: 'Admin@12345',
-            phone: '01711111111',
+            // name: 'admin1',
+            // email: 't41296193@gmail.com',
+            // password: 'Admin@12345',
+            // confirmPassword: 'Admin@12345',
+            // phone: '01711111111',
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            phone: '',
         },
         validators: {
             onSubmit: userRegistrationSchema,

@@ -23,8 +23,8 @@ const LoginForm = () => {
         defaultValues: {
             // email: 'admin@powersafe1.com',
             // password: 'Admin@12345'
-            email: 'admin@powersafe.com',
-            password: 'Admin@12345'
+            email: '',
+            password: ''
         },
          validators: {
       onSubmit: loginSchema,

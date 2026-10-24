@@ -31,6 +31,9 @@ const priorityColors: Record<string, string> = {
 export default function Assignment() {
     const user = useUserStore((state) => state.user);
     const role = user?.role;
+     const { mutate: deleteAssignment, isPending } =
+    useDeleteAssignment();
+    const queryClient = useQueryClient();
     const { data, isLoading, isError } = useAssignment();
     console.log(data);
 
@@ -52,9 +55,7 @@ export default function Assignment() {
     if (assignments.length === 0) {
         return <p className="p-6">No assignments found.</p>;
     }
-    const queryClient = useQueryClient();
-    const { mutate: deleteAssignment, isPending } =
-  useDeleteAssignment();
+   
    const handleDelete = (id: string) => {
   deleteAssignment(id, {
     onSuccess: (res) => {

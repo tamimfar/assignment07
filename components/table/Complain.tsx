@@ -35,6 +35,8 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { AssignComplainForm } from "../form/assign-form";
+import { ComplainUpdateStatus } from "../form/updatecomplainStatus-form";
+import { usePayment } from "@/hook/payment.hook";
 
 type Complaint = {
     id: string;
@@ -130,6 +132,39 @@ const handleDelete = (id: string) => {
         ),
     });
 }
+const {mutate:payment} = usePayment()
+const handlePayment = (id: string) => {
+    if(user?.role !== "USER"){
+        return;
+    }
+    payment(id,{onSuccess: () => {
+        toast.success("payment successful", {
+            position: "top-right",
+        });
+        queryClient.invalidateQueries({ queryKey: ["complaint"] });
+        router.push("/complain");
+    }})
+
+    // toast.success("Are you sure you want to mark this complaint as paid?", {
+    //     position: "top-right",
+    //     action: (
+    //         <Button
+    //             onClick={() => {
+    //                 toast.success("Complaint marked as paid", {
+    //                     position: "top-right",
+    //                 });
+    //                 queryClient.invalidateQueries({ queryKey: ["complaint"] });
+    //                 router.push("/complain");
+    //             }}
+    //             variant="destructive"
+    //             className="btn btn-primary"
+    //         >
+    //             Mark as Paid
+    //         </Button>
+    //     ),
+    // });
+}
+console.log(complaints);
     return (
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
             {complaints.map((item) => (
@@ -242,6 +277,27 @@ const handleDelete = (id: string) => {
                                <AssignComplainForm complaintId={item.id} />
                             </DialogContent>
                         </Dialog>
+                         <Dialog>
+
+                            <DialogTrigger asChild>
+                                <Button variant="default">Status Update</Button>
+                            </DialogTrigger>
+                            <DialogContent className="w-full">
+                               <ComplainUpdateStatus payload={{
+                                id:item.id,
+                               
+                                status: item.status
+                               }} />
+                            </DialogContent>
+                        </Dialog>
+                          {
+                            (item.status === "RESOLVED" && user?.role === "USER") && (
+                               
+                                <Button onClick={() => handlePayment(item.id)} variant="default">Payment</Button>
+                           
+                            )
+                            
+                          }
                     </CardFooter>
                 </Card>
             ))}

@@ -35,3 +35,9 @@ export const useDeleteAssignment = () => {
         mutationFn: (id:string) => deleteAssignment(id)
     })
 }
+
+export const useStatusUpdate = (id: string) => {
+    return useMutation({
+        mutationFn: (status:string) => updateAssignmentById(id, status)
+    })
+}

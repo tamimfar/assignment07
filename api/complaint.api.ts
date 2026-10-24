@@ -24,3 +24,7 @@ export const updateComplaintById = (id:string, payload:ComplaintPayload) => {
 export const getTecnicians = () => {
     return apiClient('/technicians', {method: 'GET'})
 }
+
+export const  updateStatus = (id:string, status:string) => {
+    return apiClient(`/complaints/${id}`, {method: 'PATCH', body: {status}}) 
+}

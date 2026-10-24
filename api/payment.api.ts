@@ -1,7 +1,7 @@
 import apiClient from "@/lib/apiClient"
 
-export const createPayment = (payload:string) => {
-    return apiClient('/payments/create', {method: 'POST', body: payload})
+export const createPayment = (complaintId:string) => {
+    return apiClient('/payments/create', {method: 'POST', body:{complaintId}})
 }
 
 export const getPaymentById = (id:string) => {

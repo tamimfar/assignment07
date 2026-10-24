@@ -1,4 +1,4 @@
-import { createComplaint, deleteComplaint, getComplaints, updateComplaintById } from "@/api"
+import { createComplaint, deleteComplaint, getComplaints, updateComplaintById, updateStatus } from "@/api"
 import { ComplaintPayload } from "@/type"
 import { useMutation, useQuery } from "@tanstack/react-query"
 
@@ -24,5 +24,11 @@ export default function useGetComplaint() {
         queryKey: ['complaint'],
         queryFn: () => getComplaints(),
         retry: false
+    })
+}
+
+export const useUpdateComplaintStatus = (id: string) => {
+    return useMutation({
+        mutationFn: (status: string) => updateStatus(id, status)
     })
 }
