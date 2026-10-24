@@ -28,6 +28,8 @@ import {
 } from "@/components/ui/dialog"
 import UpdateAreaForm from "../form/updateArea-form";
 
+
+
 export function AreaTable() {
     const queryClient = useQueryClient()
     const router = useRouter();
@@ -86,6 +88,7 @@ export function AreaTable() {
             </TableHeader>
             <TableBody>
                 {data?.data.map((invoice: Area) => (
+                    
                     <TableRow key={invoice.id}>
                         <TableCell className="font-medium">{invoice.name}</TableCell>
                         <TableCell>{invoice.district}</TableCell>

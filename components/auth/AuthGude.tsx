@@ -3,12 +3,16 @@ import { useGetMe } from "@/hook";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { AuthLoding } from "./authLoding/AuthLoding";
+import { useUserStore } from "@/stores/userStore";
+import { set } from "zod";
 
 export  const AuthGude = ({ children }: { children: React.ReactNode }) => {
     const { data , isPending, isError} = useGetMe();
  const router = useRouter();
  const user = data?.data;
+ const setUser = useUserStore((state) => state.setUser);
    useEffect(() => {
+    setUser(user);
      if (isPending) {
        return;
      }

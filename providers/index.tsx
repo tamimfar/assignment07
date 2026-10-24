@@ -5,6 +5,8 @@ import QueryProvider from "./Query.Provider";
 import { GoogleAuthProvider } from "./googleAuthProvider";
 
 
+
+
 export default function Providers({
   children,
 }: {
@@ -12,7 +14,9 @@ export default function Providers({
 }) {
   return (
     <GoogleAuthProvider>
+      
       <QueryProvider>{children}</QueryProvider>
+      
     </GoogleAuthProvider>
   );
 }

@@ -20,3 +20,7 @@ export const createComplaint = (payload:ComplaintPayload) => {
 export const updateComplaintById = (id:string, payload:ComplaintPayload) => {
     return apiClient(`/complaints/${id}`, {method: 'PATCH', body: payload })
 }
+
+export const getTecnicians = () => {
+    return apiClient('/technicians', {method: 'GET'})
+}
