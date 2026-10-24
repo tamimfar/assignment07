@@ -17,6 +17,6 @@ export const createAssignment = (payload:AssignmentPayload) => {
     return apiClient('/assignments', {method: 'POST', body: payload})
 }
 
-export const updateAssignmentById = (id:string, payload:AssignmentPayload) => {
-    return apiClient(`/assignments/${id}`, {method: 'PATCH', body: payload })
+export const updateAssignmentById = (id:string, status:string) => {
+    return apiClient(`/assignments/${id}`, {method: 'PATCH', body: {status}}) 
 }
