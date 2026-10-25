@@ -28,7 +28,7 @@ export const AssignComplainForm = (complaintId: {complaintId: string}) => {
                 complaintId: value.complaintId,
                 technicianId: value.technicianId
             }
-            console.log(data)
+            
 
             createAssignment(data, {
                 onSuccess: (res) => {
