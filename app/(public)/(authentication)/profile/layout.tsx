@@ -6,7 +6,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
        <div>
           
-          <RoleGude role={["ADMIN", "USER"]}>{children}</RoleGude>
+          <RoleGude role={["ADMIN", "USER","TECHNICIAN"]}>{children}</RoleGude>
        </div>
     );
 }
