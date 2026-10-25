@@ -17,6 +17,7 @@ import { Schedule } from "@/type";
 import { useDeleteSchedule } from "@/hook/schedule.hook";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import { useUserStore } from "@/stores/userStore";
 
 
 export function ScheduleTable({ schedules }: { schedules: Schedule[] }) {
@@ -32,43 +33,45 @@ export function ScheduleTable({ schedules }: { schedules: Schedule[] }) {
       </Card>
     );
   }
+  const user = useUserStore((state) => state.user);
+  const role = user?.role;
   const queryClient = useQueryClient();
-  const {mutate: deleteSchedule} = useDeleteSchedule();
-const handleDelete = (id: string) => {
-  toast("Are you sure you want to delete this schedule?", {
-    position: "top-right",
-    action: (
-      <Button
-        onClick={() =>
-          deleteSchedule(id, {
-            onSuccess: () => {
+  const { mutate: deleteSchedule } = useDeleteSchedule();
+  const handleDelete = (id: string) => {
+    toast("Are you sure you want to delete this schedule?", {
+      position: "top-right",
+      action: (
+        <Button
+          onClick={() =>
+            deleteSchedule(id, {
+              onSuccess: () => {
 
-                  toast.success("Schedule deleted successfully", {
-                    position: "top-right",
-                  });
-                  queryClient.invalidateQueries({ queryKey: ["schedule"] });
-                  
-            },
-              
-            onError: () =>{
+                toast.success("Schedule deleted successfully", {
+                  position: "top-right",
+                });
+                queryClient.invalidateQueries({ queryKey: ["schedule"] });
 
-              toast.error("Failed to delete schedule", {
-                position: "top-right",
-              })
-            }
-              
-          })
-        }
-        variant="destructive"
-        className="btn btn-primary"
-      >
-        Delete
-      </Button>
-    ),
-  });
+              },
 
-  
-}
+              onError: () => {
+
+                toast.error("Failed to delete schedule", {
+                  position: "top-right",
+                })
+              }
+
+            })
+          }
+          variant="destructive"
+          className="btn btn-primary"
+        >
+          Delete
+        </Button>
+      ),
+    });
+
+
+  }
   return (
     <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
       {schedules.map((schedule) => {
@@ -158,21 +161,24 @@ const handleDelete = (id: string) => {
                 <p className="truncate"><span className="font-semibold text-gray-400">Updated:</span> {new Date(schedule.updatedAt).toLocaleDateString()}</p>
               </div>
             </CardContent>
-            <CardFooter>
-              
-              <Dialog>
-                <DialogTrigger asChild>
+            {role === "ADMIN" && (
+              <CardFooter>
 
-                  <Button>Edit</Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <UpdateScheduleForm
-                    schedule={{ ...schedule, areaId: area?.id , name: area?.name }}
-                  />
-                </DialogContent>
-              </Dialog>
-                  <Button onClick={() => handleDelete(schedule.id)} className="mx-3" variant="destructive">Delete</Button>
-            </CardFooter>
+                <Dialog>
+                  <DialogTrigger asChild>
+
+                    <Button>Edit</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <UpdateScheduleForm
+                      schedule={{ ...schedule, areaId: area?.id, name: area?.name }}
+                    />
+                  </DialogContent>
+                </Dialog>
+                <Button onClick={() => handleDelete(schedule.id)} className="mx-3" variant="destructive">Delete</Button>
+              </CardFooter>
+            )}
+
           </Card>
         );
       })}

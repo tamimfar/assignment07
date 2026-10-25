@@ -1,9 +1,22 @@
+"use client"
 import LoginForm from "@/components/form/login-form"
+import { useUserStore } from "@/stores/userStore"
+import { redirect, useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 
 
 
 export default function LoginPage() {
+  const user = useUserStore((state) => state.user)
+   const router = useRouter();
+
+ 
+    if (user) {
+      router.replace("/");
+    }
+  
+   if (user) return null;
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

@@ -255,8 +255,32 @@ console.log(complaints, 'complaintsppppppp');
                             )}
                         </div>
                     </CardContent>
-                    <CardFooter className="w-full">
-                        {user?.role === "ADMIN" ?  <Button variant="destructive" onClick={() => handleDelete(item.id)}>Delete</Button> : null}
+                    {user?.role === "USER" && <CardFooter className="w-full">
+                        
+                        <Dialog>
+
+                            <DialogTrigger asChild>
+                                <Button variant="default">Edit</Button>
+                            </DialogTrigger>
+                            <DialogContent className="w-full">
+                               <UpdateComplainForm
+                                    complain={{
+                                        id:item.id,
+                                        areaId: item.area.id,
+                                        title: item.title,
+                                        description: item.description,
+                                        priority: item.priority,
+                                        address: item.address,
+                                    }}
+                                    
+                                />
+                            </DialogContent>
+                        </Dialog>
+                        <Button onClick={() => handlePayment(item.id)} variant="default">{isPending ? "Payment Pending" : "Pay Now"}</Button>
+                        </CardFooter>}
+
+                        {user?.role === "ADMIN" && <CardFooter className="w-full">
+                         <Button variant="destructive" onClick={() => handleDelete(item.id)}>Delete</Button> 
                        
                         <Dialog>
 
@@ -299,16 +323,10 @@ console.log(complaints, 'complaintsppppppp');
                                }} />
                             </DialogContent>
                         </Dialog>
-                          {
-                            
-                            (item.status === "RESOLVED" && user?.role === "USER") && (
-                               
-                                <Button onClick={() => handlePayment(item.id)} variant="default">{isPending ? "Payment Pending" : "Pay Now"}</Button>
-                           
-                            )
-                            
-                          }
-                    </CardFooter>
+                          
+                    </CardFooter>}
+                    
+                    
                 </Card>
             ))}
         </div>

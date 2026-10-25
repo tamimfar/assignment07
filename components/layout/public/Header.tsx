@@ -42,6 +42,7 @@ const Header = () => {
     const { data, isLoading } = useGetMe()
     const { mutate: logout } = useLogout()
     const queryClient = useQueryClient()
+    
 
     const router = useRouter()
     const handleLogout = () => {
@@ -58,7 +59,7 @@ const Header = () => {
             }
         })
     }
-
+let role = data?.data?.role
     return (
         <header>
             <nav className="flex justify-around items-center py-3 border-b">
@@ -75,7 +76,7 @@ const Header = () => {
                         </p>
                     </div>
                 </Link>
-                <ul className="flex gap-3">
+                <ul className="flex gap-3 hidden md:flex">
                     {menu.map((item, index) => (
                         <li key={index}>
                             <Link href={item.href}>{item.name}</Link>
@@ -101,7 +102,7 @@ const Header = () => {
                                     <MRoleGude role={[ "ADMIN", "USER"]}>
                                         <ul>
                                             <li>
-                                                <Link href="/dashboard">Dashboard</Link>
+                                                <Link href={role === "ADMIN" ? "/dashboard" : "/complain"}>Dashboard</Link>
                                             </li>
                                         </ul>
                                     </MRoleGude>

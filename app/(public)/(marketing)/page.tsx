@@ -1,4 +1,4 @@
-
+"use client";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -17,6 +17,7 @@ import {
   Radio,
   Power,
 } from "lucide-react";
+import { useUserStore } from "@/stores/userStore";
 
 const features = [
   {
@@ -84,6 +85,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 export default function HomePage() {
+  const user = useUserStore((state) => state.user)
   return (
     <main className="min-h-screen overflow-hidden bg-white text-slate-900">
       {/* Navbar */}

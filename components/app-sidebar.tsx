@@ -1,7 +1,5 @@
-import * as React from "react"
+"use client"
 
-import { SearchForm } from "@/components/search-form"
-import { VersionSwitcher } from "@/components/version-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -17,8 +15,35 @@ import {
 
 // This is sample data.
 
-import  {data} from "../router/admin.router"
+import  {adminRouter } from "../router/admin.router"
+import {technecianRouter} from "../router/technecian.router"
+import {userRouter} from "../router/user.router"
+import { useUserStore } from "@/stores/userStore"
 export function AppSidebar() {
+  type data = {
+ navMain: {
+ title: string;
+ url: string;
+ items: {
+ title: string;
+ url: string;
+ }[];
+ }[];
+} | undefined
+  const user = useUserStore((state) => state.user)
+  let role = user?.role
+  let menu:data 
+
+  if (role === "ADMIN") {
+    menu = adminRouter
+  }
+   if (role === "USER") {
+    menu = userRouter
+  }
+  if(role === "TECHNICIAN"){
+    menu = technecianRouter
+  }
+
   return (
     <Sidebar >
       <SidebarHeader>
@@ -27,7 +52,7 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
+        {menu?.navMain.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
