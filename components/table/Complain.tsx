@@ -132,17 +132,26 @@ const handleDelete = (id: string) => {
         ),
     });
 }
-const {mutate:payment} = usePayment()
+const {mutate:payment,isPending} = usePayment()
 const handlePayment = (id: string) => {
     if(user?.role !== "USER"){
         return;
     }
-    payment(id,{onSuccess: () => {
+    payment(id,{onSuccess: (res) => {
+        queryClient.invalidateQueries({ queryKey: ["complaint"] });
+        const bkashURL =
+  res?.data?.bkash?.bkashURL ??
+  res?.data?.gatewayResponse?.bkashURL;
+
+if (bkashURL) {
+  window.location.href = bkashURL;
+} else {
+  console.error("bKash URL not found:", res);
+}
         toast.success("payment successful", {
             position: "top-right",
         });
-        queryClient.invalidateQueries({ queryKey: ["complaint"] });
-        router.push("/complain");
+       
     }})
 
     // toast.success("Are you sure you want to mark this complaint as paid?", {
@@ -164,7 +173,7 @@ const handlePayment = (id: string) => {
     //     ),
     // });
 }
-console.log(complaints);
+console.log(complaints, 'complaintsppppppp');
     return (
         <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
             {complaints.map((item) => (
@@ -291,9 +300,10 @@ console.log(complaints);
                             </DialogContent>
                         </Dialog>
                           {
+                            
                             (item.status === "RESOLVED" && user?.role === "USER") && (
                                
-                                <Button onClick={() => handlePayment(item.id)} variant="default">Payment</Button>
+                                <Button onClick={() => handlePayment(item.id)} variant="default">{isPending ? "Payment Pending" : "Pay Now"}</Button>
                            
                             )
                             

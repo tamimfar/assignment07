@@ -4,6 +4,9 @@ export const createPayment = (complaintId:string) => {
     return apiClient('/payments/create', {method: 'POST', body:{complaintId}})
 }
 
+export const paymentConfirm = (paymentId:string) => {
+    return apiClient(`/payments/execute`, {method: 'POST', body:{paymentId}})
+}
 export const getPaymentById = (id:string) => {
     return apiClient(`/payments/${id}`, {method: 'GET'})
 }
