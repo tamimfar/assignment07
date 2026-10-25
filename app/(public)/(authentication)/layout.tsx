@@ -1,6 +1,6 @@
 "use client";
 import { useGetMe } from '@/hook';
-import { useUserStore } from '@/stores/userStore';
+
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
