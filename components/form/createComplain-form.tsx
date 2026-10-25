@@ -58,7 +58,7 @@ const { role } = currentUser?.data ?? {};
             address: "",
         },
         onSubmit: async ({ value }) => {
-             console.log(value)
+            
             if(role !== "USER"){
                 toast.error("You are not allowed to create complain", { position: "top-right" });
                 return;
@@ -74,7 +74,7 @@ const { role } = currentUser?.data ?? {};
                 priority: value.priority,
                 address: value.address,
             };
-            // console.log(complainData)
+            
 
 
             UComplain(complainData, {
