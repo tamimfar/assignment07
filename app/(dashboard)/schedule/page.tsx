@@ -2,7 +2,7 @@
 import LoginForm from "@/components/form/login-form"
 import ScheduleForm from "@/components/form/schedule-form"
 import { ScheduleTable } from "@/components/table/Schedule"
-import { useGetSchedule, useSchedule } from "@/hook/schedule.hook";
+import { useGetSchedule } from "@/hook/schedule.hook";
 
 
 
