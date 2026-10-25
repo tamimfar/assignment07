@@ -25,6 +25,8 @@ export  const AuthGude = ({ children }: { children: React.ReactNode }) => {
      return <div><AuthLoding /></div>;
    }
 
+   
+
    if (isError || !user) {
      return <div ><AuthLoding /></div>;
    }
